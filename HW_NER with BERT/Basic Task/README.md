@@ -10,14 +10,11 @@ The project focuses on identifying and classifying named entities (e.g., Person,
 - Dataset
 - Dependencies
 - Setup Instructions
-- Code Structure and Explanation
+- Code Structure, Explanation, and Outputs
 - Usage
-- Results
-- Contributing
-- License
 
 ---
-##　Project Overview
+## Project Overview
 
 Named Entity Recognition (NER) is a natural language processing (NLP) task that involves identifying and categorizing named entities (e.g., persons, organizations, locations) in text.
 
@@ -62,16 +59,14 @@ The project relies on the following Python libraries:
 
 These dependencies are installed in the notebook via pip:
 ```bash
-pip install datasets -q
-pip install tokenizers -q
-pip install transformers -q
-pip install seqeval==0.0.3 -q
+!pip install -U datasets
+!pip install tokenizers -q
+!pip install transformers -q
+!pip install seqeval==0.0.3 -q
 ```
 
 ---
 ## Setup Instructions
-
-To run this project, follow these steps:
 
 To run this project, follow these steps:
 
@@ -86,7 +81,7 @@ To run this project, follow these steps:
 - Execute the cells sequentially to load the dataset, preprocess the data, fine-tune the model, and evaluate the results.
 
 ---
-## Code Structure and Explanation
+## Code Structure, Explanation, and Outputs
 
 The Jupyter Notebook is organized into the following sections:
 
@@ -95,16 +90,34 @@ The Jupyter Notebook is organized into the following sections:
 - Checks GPU availability with `nvidia-smi`.
 2. Dataset Loading
 - Loads the English subset of the WikiANN dataset using `datasets.load_dataset("wikiann", "en")`.
+
+![image](https://github.com/user-attachments/assets/10bc472e-ae05-4c05-9943-a9755c3c6def)
+
 - Displays dataset statistics (20,000 train, 10,000 validation, 10,000 test samples).
+
+![image](https://github.com/user-attachments/assets/d421c072-0217-4ea4-9fb3-b8fcaf346f5b)
+
 - Shows label names ('O', 'B-PER', 'I-PER', 'B-ORG', 'I-ORG', 'B-LOC', 'I-LOC') and sample data.
+
+![image](https://github.com/user-attachments/assets/26c5e14d-e867-4cec-9fea-8bb94760b7c4)
+
 3. Data Preprocessing
 - Tokenization:
-    - Uses `AutoTokenizer` from `transformers` to tokenize the dataset with `distilbert-base-uncased`.
+    - Uses `AutoTokenizer` from `transformers` to tokenize the dataset with `distilbert-base-uncased`.  
+![image](https://github.com/user-attachments/assets/e6b21c74-a32f-4ac7-b70d-116e98787bf2)
+
     - Tokens are padded to a fixed length (`padding="max_length"`) and truncated if necessary (`truncation=True`).
+![image](https://github.com/user-attachments/assets/0d3c4aeb-3c07-4316-a8f5-013dd7dcb4e3)
+
 - Label Alignment:
     - Defines a custom function (`tokenize_adjust_labels`) to align NER tags with tokenized inputs.
     - Handles subword tokenization by assigning the same label to subword tokens and setting special tokens (e.g., [CLS], [SEP]) to -100 (ignored in loss computation).
     - Removes unnecessary columns (`tokens`, `ner_tags`, `langs`, `spans`) from the tokenized dataset.
+
+![image](https://github.com/user-attachments/assets/2c3a09ea-3c0f-4320-9e91-180fd8b256e6)
+
+![image](https://github.com/user-attachments/assets/c684009c-bc45-4509-bd55-fa2c211bf1ae)
+
 4. Fine-Tuing
 - Model Initialization:
     - Loads `AutoModelForTokenClassification` with `distilbert-base-uncased` and configures it for 7 labels (corresponding to the WikiANN label set).
@@ -116,10 +129,12 @@ The Jupyter Notebook is organized into the following sections:
 - Trainers:
     - Initializes a `Trainer` object with the model, dataset, data collator, and custom metrics (precision, recall, F1, accuracy).
     - Fine-tunes the model using the `trainer.train()` method.
+![image](https://github.com/user-attachments/assets/0552c239-9759-4bdb-8b17-2bc3d73d704e)
+
 5. Evaluation
 - Evaluates the model on the test set using `trainer.predict()`.
 - Computes metrics (precision, recall, F1-score, accuracy) by comparing predicted labels with true labels, ignoring special tokens (-100).
-
+- Output: **Precision: 0.8128, Recall: 0.8325, F1: 0.8225, Accuracy: 0.9226**
 ---
 ## Key Functions
 
