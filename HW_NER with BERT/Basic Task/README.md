@@ -111,7 +111,7 @@ The Jupyter Notebook is organized into the following sections:
 
 - Label Alignment:
     - Defines a custom function (`tokenize_adjust_labels`) to align NER tags with tokenized inputs.
-    - Handles subword tokenization by assigning the same label to subword tokens and setting special tokens (e.g., [CLS], [SEP]) to -100 (ignored in loss computation).
+    - Handles subword tokenization by assigning the same label to subword tokens and setting special tokens to -100 (ignored in loss computation).
     - Removes unnecessary columns (`tokens`, `ner_tags`, `langs`, `spans`) from the tokenized dataset.
 
 ![image](https://github.com/user-attachments/assets/2c3a09ea-3c0f-4320-9e91-180fd8b256e6)
