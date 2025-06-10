@@ -13,7 +13,6 @@ The primary goal of this work is to replicate the reference implementation. This
 - Dependencies
 - Setup Instructions
 - Code Structure, Explaination, and Outputs
-- Usage
 
 ---
 
@@ -236,8 +235,12 @@ The script (`evaluate.py`) serves as the entry point for evaluating retrieval an
 ### 7. Evaluation
 
   - Evaluates retrieval and generation using Hit Rate, Term Match Recall, and BERTScore.
-  - **Output**: Example metrics: Hit Rate @3: 84.23%, Term Match Recall: 57.54%, BERTScore: 50.22%.
+  - **Output**: Average retrieval_hits: 84.23%, Average term_match_recall: 57.54%, Average bert_score: 50.22%.
 ```bash
 !python evaluate.py --topk 3 --use_bertscore
 ```
 ![image](https://github.com/user-attachments/assets/19b5c7e6-23fe-47f6-a80f-4ff210b8b05a)
+
+#### Explaination of the baseline results
+
+The baseline RAG system, utilizing `sentence-transformers/all-MiniLM-L6-v2` for retrieval and `TinyLlama/TinyLlama-1.1B-Chat-v1.0` for generation, yielded the following results: Average retrieval_hits @3: 84.23%, Average term_match_recall: 57.54%, and Average bert_score: 50.22%. The retrieval_hits @3 of 84.23% indicates that the retriever successfully identifies at least one relevant document within the top-3 results for most questions, demonstrating effective document retrieval. However, the term_match_recall of 57.54% is relatively low, suggesting that the generated answers often fail to include key terms or phrases from the reference answers, likely due to the limited expressive capacity of the TinyLlama model. The bert_score of 50.22% reflects moderate semantic similarity between generated and ground truth answers, but there is significant room for improvement compared to the strong baseline (e.g., Term Match Recall: 97.33%), particularly in capturing precise terminology and enhancing answer quality.
