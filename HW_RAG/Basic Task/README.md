@@ -232,7 +232,7 @@ The script (`evaluate.py`) serves as the entry point for evaluating retrieval an
 ! pip install bert_score==0.3.13
 ```
 
-### 7. Evaluation
+### 7. Evaluation (Complete Evaluation)
 
   - Evaluates retrieval and generation using Hit Rate, Term Match Recall, and BERTScore.
   - **Output**: Average retrieval_hits: 84.23%, Average term_match_recall: 57.54%, Average bert_score: 50.22%.
