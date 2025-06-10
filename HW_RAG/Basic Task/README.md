@@ -1,8 +1,8 @@
 # Retrieval-Augmented Generation (RAG) Assignment
 
-This repository contains a Jupyter Notebook `nlp_rag_example.ipynb` that demonstrates how to implement a Retrieval-Augmented Generation (RAG) system using Google Colab with GPU acceleration. 
+This repository presents a basic implementation of a Retrieval-Augmented Generation (RAG) system via the `nlp_rag_example.ipynb` Jupyter Notebook, executed on Google Colab with GPU support.
 
-The project focuses on retrieving relevant documents and generating answers to medical-related questions using a dense retriever and a large language model (LLM).
+The primary goal of this work is to replicate the reference implementation. This `README.md` serves as a concise project report, detailing the usage of the provided sample code and explaining the resulting baseline performance.
 
 ---
 
