@@ -51,6 +51,34 @@ pip install bert_score==0.3.13
 - Execute the Python scripts (`rag_improveed.py`、`evaluate.py`) sequentially.
 
 ---
+## Model Information
+
+This project utilizes multiple models to implement the Retrieval-Augmented Generation (RAG) system's retrieval and generation capabilities. The following details provide an overview of each model:
+
+### Sentence Embedding Models:
+- **Baseline**: [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+   - Type: Transformer-based sentence embedding model
+   - Version: v2
+   - Parameters: ~22M
+   - Characteristics: Lightweight model optimized for fast retrieval, though limited in semantic capture.
+- **Optimized**: [`intfloat/e5-large`](https://huggingface.co/intfloat/e5-large)
+   - Type: Transformer-based embedding model
+   - Version: Latest release (2023)
+   - Parameters: ~335M
+   - Characteristics: Enhanced semantic understanding and retrieval accuracy, particularly suited for diverse medical queries.
+
+### Generator Models:
+- **Baseline**: [`TinyLlama/TinyLlama-1.1B-Chat-v1.0`](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0)
+   - Type: Causal language model
+   - Version: v1.0
+   - Parameters: ~1.1B
+   - Characteristics: Compact model with limited generation capacity, resulting in lower baseline performance.
+- **Tested Varients**:
+   - [`MiniMaxAI/SynLogic-7B`](https://huggingface.co/MiniMaxAI/SynLogic-7B): 7B parameter model optimized for dialogue.
+   - [`Qwen/Qwen2.5-7B`](https://huggingface.co/Qwen/Qwen2.5-7B): 7B parameter model supporting multilingual
+   - [`microsoft/Phi-4-mini-instruct`](https://huggingface.co/microsoft/Phi-4-mini-instruct): ~3.8B parameter instruction-tuned model with high generation quality.
+
+---
 ## Testing Process and Results
 
 Multiple tests were conducted to optimize the RAG system by adjusting the generator model and prompt. The table below summarizes each test's configuration and outcomes.
@@ -99,7 +127,7 @@ The optimal configuration is:
 - **Average Retrieval Hits**: 93.45%
 - **Average Term Match Recall**: 96.21%
 - **Average BERTScore**: 29.68%
-- Execution Time: ~15 minutes for 325 questions
+- **Execution Time**: ~15 minutes for 325 questions
 
 Compared to the baseline (Retrieval Hits: 84.23%, Term Match Recall: 57.54%, BERTScore: 50.22%), this configuration achieves substantial gains, approaching the strong baseline's Term Match Recall of 97.33%.
 
