@@ -1,4 +1,4 @@
-# Retrieval-Augmented Generation (RAG) System Improvement Report
+# RAG System Improvement Report
 
 This repository documents an enhanced implementation of a Retrieval-Augmented Generation (RAG) system, built upon the baseline provided in the `nlp_rag_example.ipynb` Jupyter Notebook. 
 
