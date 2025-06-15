@@ -22,37 +22,31 @@ This project was executed locally using Windows Subsystem for Linux (WSL) instea
 - Limited GPU resource availability.
 - Automatic disconnection after prolonged inactivity.
 
-The choice of WSL provides a stable and customizable environment for running experiments. The hardware specifications of the host machine are as follows:
+### Hardware Specifications
+- **CPU**: Intel Core i5-14400F
+- **GPU**: NVIDIA GeForce RTX 4060 Ti (16 GB VRAM)
+- **GPU memory**: Total 31.9 GB (16 GB VRAM + shared GPU memory 15.9 GB)
+- **OS**: Windows 11 (via WSL2 with Ubuntu 22.04).
 
-- CPU: Intel Core i5-14400F
-- GPU: NVIDIA GeForce RTX 4060 Ti (16 GB VRAM)
-- GPU memory: Total 31.9 GB (16 GB VRAM + shared memory 15.9 GB)
-- Operating System: Windows 11 (via WSL2 with Ubuntu 22.04).
-
+### Environment Setup
 A virtual environment was set up with Python 3.11 to manage dependencies and ensure reproducibility. To set up the environment:
 
 #### 1. Set Up Python Virtual Environment:
-
 - Create a virtual environment: `conda create --name env_rag python=3.11`
 - Activate the environment: `conda activate env_rag`
 
 #### 2. Install Dependencies:
-
-Install required libraries within the virtual environment:
-
 - For `rag_improved.py`:
 ```bash
 pip install -q transformers sentence-transformers accelerate
 ```
-
-- For evaluation:
+- For `evaluate.py`:
 ```bash
 pip install cython==3.1.0
 pip install bert_score==0.3.13
 ```
 
 #### 3. Run the Project:
-
 - Upload `documents.json`, `questions.json`, `eval_bertscore.py`, `eval_retrieval.so`, and `evaluate.py` to the WSL environment.
 - Execute the Python scripts (`rag_improveed.py`、`evaluate.py`) sequentially.
 
@@ -61,29 +55,28 @@ pip install bert_score==0.3.13
 
 Multiple tests were conducted to optimize the RAG system by adjusting the generator model and prompt. The table below summarizes each test's configuration and outcomes.
 
-|Test|Generator Model|Prompt Modifications|Results (Average)
-| --- | --- | --- | --- |
-1|`"MiniMaxAI/SynLogic-7B"`|Basic prompt emphasizing concise, accurate answers based on context.|- Retrieval Hits: 84.23% <br>- Term Match Recall: 75.03% <br> - BERTScore: 45.91% <br>
-2|`"Qwen/Qwen2.5-7B"`|Same as Test 1.|- Retrieval Hits: 84.23% <br>- Term Match Recall: 72.36% <br> - BERTScore: 44.14% <br>
-3|`"Qwen/Qwen2.5-7B"`|Reverted to baseline prompt for comparison.|- Retrieval Hits: 84.23% <br>- Term Match Recall: 43.33% <br> - BERTScore: 28.18% <br>
-4|`"microsoft/Phi-4-mini-instruct"`|Enhanced prompt focusing on medical accuracy and context relevance.|- Retrieval Hits: 84.23% <br>- Term Match Recall: 86.72%  <br> - BERTScore: 29.49% <br>
-5|`"microsoft/Phi-4-mini-instruct"`|Same as Test 4, with embedding model upgraded to `"intfloat/e5-large"`.|- Retrieval Hits: 93.45% <br>- Term Match Recall: 96.21%  <br> - BERTScore: 29.68% <br>
+| Test | Generator Model             | Prompt Modifications                             | Results (Average)                          |
+|------|-----------------------------|--------------------------------------------------|--------------------------------------------|
+| 1    | `"MiniMaxAI/SynLogic-7B"`   | Basic prompt emphasizing concise, accurate answers based on context. | - Retrieval Hits: 84.23% <br>- Term Match Recall: 75.03% <br>- BERTScore: 45.91% |
+| 2    | `"Qwen/Qwen2.5-7B"`         | Same as Test 1.                                  | - Retrieval Hits: 84.23% <br>- Term Match Recall: 72.36% <br>- BERTScore: 44.14% |
+| 3    | `"Qwen/Qwen2.5-7B"`         | Reverted to baseline prompt for comparison.      | - Retrieval Hits: 84.23% <br>- Term Match Recall: 43.33% <br>- BERTScore: 28.18% |
+| 4    | `"microsoft/Phi-4-mini-instruct"` | Enhanced prompt focusing on medical accuracy. | - Retrieval Hits: 84.23% <br>- Term Match Recall: 86.72% <br>- BERTScore: 29.49% |
+| 5    | `"microsoft/Phi-4-mini-instruct"` | Same as Test 4, with embedding model `"intfloat/e5-large"`. | - Retrieval Hits: 93.45% <br>- Term Match Recall: 96.21% <br>- BERTScore: 29.68% |
 
-#### Analysis:
+### Analysis:
 
-- Test 1 & 2: Switching to larger models (7B) and simply modifying the prompt improved Term Match Recall over the baseline (57.54%).
-- Test 3: Reverting to the baseline prompt significantly degraded performance, underscoring the value of prompt engineering.
-- Test 4: The enhanced prompt with "Phi-4-mini-instruct" boosted Term Match Recall further.
-- Test 5: Upgrading the retriever to "intfloat/e5-large" markedly improved Retrieval Hits and Term Match Recall, nearing the strong baseline.
+- **Tests 1-4**: With `all-MiniLM-L6-v2`, Retrieval Hits remained at 84.23%. 
+- **Test 1 & 2**: Switching to larger models (7B) and simply modifying the prompt improved Term Match Recall over the baseline (57.54%).
+- **Test 3**: Reverting to the baseline prompt significantly degraded performance, underscoring the value of prompt engineering.
+- **Test 4**: The enhanced prompt with "Phi-4-mini-instruct" boosted Term Match Recall further.
+- **Test 5**: Upgrading the retriever to "intfloat/e5-large" markedly improved Retrieval Hits and Term Match Recall, nearing the strong baseline.
 
 ---
 ## Final Configuration and Results
-
 The optimal configuration is:
-
-- Embedding Model: `"intfloat/e5-large"`
-- Generator Model: `"microsoft/Phi-4-mini-instruct"`
-- Prompt:
+- **Embedding Model**: `"intfloat/e5-large"`
+- **Generator Model**: `"microsoft/Phi-4-mini-instruct"`
+- **Prompt**:
   ```plain
   <|system|>
   You are an expert medical assistant with access to a comprehensive database of medical documents. 
@@ -103,10 +96,10 @@ The optimal configuration is:
   ```
 
 #### Final Results:
-
 - **Average Retrieval Hits**: 93.45%
 - **Average Term Match Recall**: 96.21%
 - **Average BERTScore**: 29.68%
+- Execution Time: ~15 minutes for 325 questions
 
 Compared to the baseline (Retrieval Hits: 84.23%, Term Match Recall: 57.54%, BERTScore: 50.22%), this configuration achieves substantial gains, approaching the strong baseline's Term Match Recall of 97.33%.
 
