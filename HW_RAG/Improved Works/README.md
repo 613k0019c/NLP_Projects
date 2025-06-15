@@ -75,7 +75,7 @@ This project utilizes multiple models to implement the Retrieval-Augmented Gener
    - Characteristics: Compact model with limited generation capacity, resulting in lower baseline performance.
 - **Tested Varients**:
    - [`MiniMaxAI/SynLogic-7B`](https://huggingface.co/MiniMaxAI/SynLogic-7B): 7B parameter model optimized for dialogue.
-   - [`Qwen/Qwen2.5-7B`](https://huggingface.co/Qwen/Qwen2.5-7B): 7B parameter model supporting multilingual
+   - [`Qwen/Qwen2.5-7B`](https://huggingface.co/Qwen/Qwen2.5-7B): 7B parameter model supporting multilingual.
    - [`microsoft/Phi-4-mini-instruct`](https://huggingface.co/microsoft/Phi-4-mini-instruct): ~3.8B parameter instruction-tuned model with high generation quality.
 
 ---
@@ -130,6 +130,9 @@ The optimal configuration is:
 - **Execution Time**: ~15 minutes for 325 questions
 
 Compared to the baseline (Retrieval Hits: 84.23%, Term Match Recall: 57.54%, BERTScore: 50.22%), this configuration achieves substantial gains, approaching the strong baseline's Term Match Recall of 97.33%.
+
+Terminal Screenshot:
+![image](https://github.com/user-attachments/assets/6f0be18f-be0a-44df-b196-e06a37f682f4)
 
 ---
 
